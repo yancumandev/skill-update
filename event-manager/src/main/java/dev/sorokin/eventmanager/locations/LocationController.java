@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class LocationController {
     }
 
     @DeleteMapping("{id}")
+ //   @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         log.info("DEL сущности с id = {}", id);
         locationService.deleteById(id);
@@ -64,7 +66,7 @@ public class LocationController {
     @PutMapping("{id}")
     public ResponseEntity<LocationDto> updateLocation(
             @Valid @RequestBody LocationDto locationDto,
-            @PathVariable Long id) {
+            @PathVariable Long id) { // почему тут после паф варил нет смкобок
         log.info("UPDATE сущности с id = {}", locationDto);
 
         var result = locationService.updateLocations(locationDtoConvertor.toDomain(locationDto), id);

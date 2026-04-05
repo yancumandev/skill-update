@@ -5,14 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -23,8 +25,6 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException e
     ) {
         log.error("Некорректный запрос ", e);
-      //  log.error("Некорректный запрос + %s", e.getMessage());
-
         String detailedMessage = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -36,7 +36,6 @@ public class GlobalExceptionHandler {
                 detailedMessage,
                 LocalDateTime.now()
         );
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorDto);
@@ -76,5 +75,34 @@ public class GlobalExceptionHandler {
                 .body(errorDto);
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorDto> handleAuthorizationException(
+            AuthorizationDeniedException e
+    ) {
+        log.error("Authorization error", e);
+        var errorDto = new ErrorDto(
+                "FORBIDDEN",
+                e.getMessage(),
+                LocalDateTime.now()
+        );
 
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorDto);
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorDto> handleIllegalArgument(
+            IllegalArgumentException e
+    ) {
+        var errorDto = new ErrorDto(
+                "Некорректный запрос",
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDto);
+    }
 }
