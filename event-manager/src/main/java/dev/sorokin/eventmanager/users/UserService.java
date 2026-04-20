@@ -33,7 +33,7 @@ public class UserService {
                 singUpRequest.login(),
                 hashedPass,
                 singUpRequest.age(),
-                UserRole.USER.name());
+                UserRole.USER);
 
         var saved = userRepository.save(saveUserToTable);
         return mapToDomain(saved);
@@ -50,8 +50,8 @@ public class UserService {
                 entity.getId(),
                 entity.getLogin(),
                 entity.getAge(),
-                UserRole.valueOf(entity.getRole()),
-                entity.getPassword()
+                entity.getRole(),
+                null
         );
     }
 
@@ -71,7 +71,7 @@ public class UserService {
                 admin.login(),
                 admin.passwordHash(),
                 admin.age(),
-                admin.role().name()
+                admin.role()
         );
         userRepository.save(saveAdmin);
     }

@@ -54,7 +54,6 @@ public class LocationController {
     }
 
     @DeleteMapping("{id}")
- //   @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
         log.info("DEL сущности с id = {}", id);
         locationService.deleteById(id);
@@ -66,7 +65,7 @@ public class LocationController {
     @PutMapping("{id}")
     public ResponseEntity<LocationDto> updateLocation(
             @Valid @RequestBody LocationDto locationDto,
-            @PathVariable Long id) { // почему тут после паф варил нет смкобок
+            @PathVariable Long id) {
         log.info("UPDATE сущности с id = {}", locationDto);
 
         var result = locationService.updateLocations(locationDtoConvertor.toDomain(locationDto), id);

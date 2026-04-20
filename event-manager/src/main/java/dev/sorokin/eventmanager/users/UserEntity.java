@@ -10,23 +10,32 @@ public class UserEntity {
     private Long id;
     @Column(unique = true)
     private String login;
-
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private Integer age;
-
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
 
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String login, String password, Integer age, String role) {
+
+    public UserEntity(Long id, String login, String password, Integer age, UserRole role) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.age = age;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -45,27 +54,19 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public Integer getAge() {
         return age;
     }
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
