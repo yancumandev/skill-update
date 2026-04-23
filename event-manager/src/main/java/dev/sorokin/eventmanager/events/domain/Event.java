@@ -1,6 +1,18 @@
 package dev.sorokin.eventmanager.events.domain;
 
-public record Event (
+import java.time.LocalDateTime;
+import java.util.List;
 
-){
+public record Event(
+        Long id,
+        String name,
+        Long ownerId,
+        Integer maxPlaces,
+        List<EventRegistration> registrationList,
+        LocalDateTime date,
+        Integer cost,
+        Integer duration,
+        Long locationId,
+        EventStatus status
+) {
 }

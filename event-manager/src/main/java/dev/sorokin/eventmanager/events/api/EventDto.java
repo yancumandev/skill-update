@@ -1,33 +1,29 @@
 package dev.sorokin.eventmanager.events.api;
 
+import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+
+
 public record EventDto(
         Long id,
 
-        //название мероприятия
+        @NotBlank(message = "имя должно быть обязательно ")
         String name,
 
-        //id пользователя-создателя мероприятия
         Long ownerId,
 
-        //Максимальная вместиость
         Integer maxPlaces,
 
-        //Кол-во уже занятых мест (создатель не учитывается при подсчете)
         Integer occupiedPlaces,
 
-        //ата и время проведения мероприятия. Формат "YYYY-MM-DDThh:mm:ss"
-        String date,
+        LocalDateTime date,
 
-        //Стоимость в рублях
         Integer cost,
 
-        // Длительность в минутах
         Integer duration,
 
-        //Идентификатор локации, где проходит мероприятие
-        Integer locationId,
+        Long locationId,
 
-        // статус
         String status
 ) {
 

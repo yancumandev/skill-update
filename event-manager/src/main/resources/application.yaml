@@ -21,9 +21,12 @@ spring:
     change-log: classpath:/db/changelog/changelog-master.yaml
 
 logging:
+  file:
+    name: logs/event-manager.log
   level:
     root: INFO
     org.springframework.web: INFO
+
 
 springdoc:
   swagger-ui:
@@ -32,4 +35,9 @@ springdoc:
 security:
   jwt:
     secret: ${JWT_SECRET:my-super-secret-jwt-key-1234567890}
-    expiration-ms: ${JWT_EXPIRATION_MS:65436346}
+    expiration-ms: ${JWT_EXPIRATION_MS:654363465235}
+
+app:
+  scheduling:
+    event-status:
+      cron: "0 * * * * *"

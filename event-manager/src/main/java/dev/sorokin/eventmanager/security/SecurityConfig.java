@@ -46,11 +46,24 @@ public class SecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/users/auth").permitAll() // как переводиться дословно (типо разрешено всем)
+                                .requestMatchers(HttpMethod.POST, "/users/auth").permitAll()
+
                                 .requestMatchers(HttpMethod.GET, "/locations/**").hasAnyAuthority("ADMIN", "USER")
                                 .requestMatchers(HttpMethod.POST, "/locations").hasAnyAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/locations/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/locations/**").hasAnyAuthority("ADMIN")
+
+                                .requestMatchers(HttpMethod.POST, "/events").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.DELETE, "/events/{locationId}").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/events/**").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.PUT, "/events/{locationId}").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/events/search").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/events/my").hasAuthority("USER")
+
+                                .requestMatchers(HttpMethod.POST, "/events/registrations/").hasAnyAuthority("USER")
+                                .requestMatchers(HttpMethod.DELETE, "/events/registrations/cancel/").hasAnyAuthority("USER")
+                                .requestMatchers(HttpMethod.GET,"/events/registrations/my").hasAnyAuthority("USER")
+
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception ->

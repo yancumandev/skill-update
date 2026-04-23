@@ -1,31 +1,31 @@
 package dev.sorokin.eventmanager.events.api;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record EventRequest(
-        // Название мероприятия
+
+        @NotBlank
         String name,
 
-        //сколько мест
-        @Positive(message = "должно быть больше целого числа")
+        @Positive(message = "Должно быть больше целого числа")
+        @Min(value = 5, message = "минимум 5")
         Integer maxPlaces,
 
-        // дата
-        LocalDate date,
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
+        @Future(message = "Date must be in future")
+        LocalDateTime date,
 
-        //цена
-        @Min(value = 1, message = "минимальное цена от 1 и выше")
+        @NotNull
+        @Min(value = 10, message = "минимальное цена от 10 и выше")
         Integer cost,
 
-        //длительность
+        @NotNull
         @Min(value = 30, message = "длительность от 30 минут")
         Integer duration,
 
-        // айди локации указывается организатором
         @NotNull
         Long locationId
 ) {

@@ -1,71 +1,69 @@
 package dev.sorokin.eventmanager.events.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import dev.sorokin.eventmanager.events.domain.EventStatus;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
-//@Entity
-//@Table(name = "")
+@Entity
+@Table(name = "events")
 public class EventEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "date",nullable = false)
-    private LocalDate date;
-    @Column(name = "duration",nullable = false)
-    private Integer duration;
-    @Column(name = "cost",nullable = false)
-    private Integer cost;
-    @Column(name = "maxPlaces", nullable = false)
-    private Integer maxPlaces;
-    @Column(name = "locationId",nullable = false)
-    private Integer locationId;
+
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
+    @Column(name = "max_places", nullable = false)
+    private Integer maxPlaces;
+
+    @OneToMany(mappedBy = "eventEntity")
+    private List<EventRegistrationEntity> registrationList;
+
+    @Column(name = "date_start_at", nullable = false)
+    private LocalDateTime date;
+
+    @Column(name = "cost", nullable = false)
+    private Integer cost;
+
+    @Column(name = "duration_minutes", nullable = false)
+    private Integer duration;
+
+    @Column(name = "location_id", nullable = false)
+    private Long locationId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private EventStatus status;
+
 
     public EventEntity() {
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
-    public Integer getMaxPlaces() {
-        return maxPlaces;
-    }
-
-    public void setMaxPlaces(Integer maxPlaces) {
+    public EventEntity(Long id, String name, Long ownerId, Integer maxPlaces, List<EventRegistrationEntity> registrationList, LocalDateTime date, Integer cost, Integer duration, Long locationId, EventStatus status) {
+        this.id = id;
+        this.name = name;
+        this.ownerId = ownerId;
         this.maxPlaces = maxPlaces;
-    }
-
-    public Integer getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(Integer locationId) {
+        this.registrationList = registrationList;
+        this.date = date;
+        this.cost = cost;
+        this.duration = duration;
         this.locationId = locationId;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -76,13 +74,68 @@ public class EventEntity {
         this.name = name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public Long getId() {
-        return id;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Integer getMaxPlaces() {
+        return maxPlaces;
+    }
+
+    public void setMaxPlaces(Integer maxPlaces) {
+        this.maxPlaces = maxPlaces;
     }
 
 
+    public List<EventRegistrationEntity> getRegistrationList() {
+        return registrationList;
+    }
+
+    public void setRegistrationList(List<EventRegistrationEntity> registrationList) {
+        this.registrationList = registrationList;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
+    public EventStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventStatus status) {
+        this.status = status;
+    }
 }

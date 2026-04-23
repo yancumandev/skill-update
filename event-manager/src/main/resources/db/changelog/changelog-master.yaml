@@ -3,3 +3,9 @@ databaseChangeLog:
       file: db/changelog/changesets/0001-starter-baseline.yaml
   - include:
       file: db/changelog/changesets/003-create-user.sql
+  - include:
+      file: db/changelog/changesets/004-create-event.sql
+  - include:
+      file: db/changelog/changesets/005-create-table-registrations.sql
+  - include:
+      file: db/changelog/changesets/005_drop_occupied_places.sql
