@@ -42,3 +42,4 @@ docs/*
 !docs/openapi/
 !docs/openapi/**
 diagrams/
+/logs/event-manager.log
